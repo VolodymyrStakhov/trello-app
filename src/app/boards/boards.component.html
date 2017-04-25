@@ -1,0 +1,21 @@
+<div class="wrapper">
+  <div class="board" (click)="goToLists($event)" *ngFor="let board of boards">
+    <i class="material-icons close-board" (click)="itemTodelete($event)">close</i>
+    <input type="text" (click)="focusIn($event)" (focusout)="focusOut($event)" (keydown)="$event.keyCode === 13 ? focusOut($event) : null" class="board-name" value={{board.name}} spellcheck="false">
+  </div>
+  <div class="board-create-tile" (click)='showPopUpWindow($event)'><!--Create new board...-->+</div>
+</div>
+
+<div *ngIf="showPopUp" [ngStyle]="{top: offsetTop, left: offsetLeft}" class="add-board-name-field">
+  <i class="material-icons" (click)="showPopUp=false">close</i>
+  <p class="header">Creating board</p>
+  <div class="board-name-area">
+    <label for="name">Board name</label><br />
+    <input type="text" name="name" [(ngModel)]="boardName" (keydown)="$event.keyCode === 13 ? createBoardNameByEnter() : null" autofocus placeholder="Enter name for you new board" spellcheck="false">
+      <div class="error-container">
+        <p *ngIf='errorMsgEmpty'class="error-msg">*Error. Fill it!</p>
+        <p *ngIf='errorMsgExist'class="error-msg">*Error. Already exist!</p>
+      </div>
+  </div>
+  <button class="create-board-btn" (click)="createNewBoard()">Create</button>
+</div>

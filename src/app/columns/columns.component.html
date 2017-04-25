@@ -1,0 +1,84 @@
+<h3>{{boardName}}</h3>
+<div class="wrapper">
+  <div class="column-container" *ngFor="let list of lists">
+    <div class="column-header">
+      <i *ngIf="showDelListBtn" class="material-icons deleteList-btn" (click)="deleteList($event)">close</i>
+      <input (click)="focusIn($event)" (focusout)="focusOut($event)" (keydown)="$event.keyCode === 13 ? focusOut($event) : null" class="list-name-input" type="text" value={{list.name}} spellcheck="false">
+    </div>
+    <!-- <div [dragula]='"first-bag"'> -->
+      <div class="column-context" *ngFor="let card of list.cards" (click)="showPopUp($event)">
+        <i class="material-icons deleteList-btn" (click)="deleteCard($event)">close</i>
+          {{card.name}}
+      </div>
+    <!-- </div> -->
+
+    <input class="column-context-input" type="text" value='' placeholder="input name for your card" spellcheck="false">
+    <div class="column-footer" (click)="addCard($event)">
+      Add card...
+    </div>
+  </div>
+  <div class="list-container">
+    <input type="text" class="list-add-input" autofocus  placeholder="Add list..." spellcheck="false">
+    <button class="list-save-btn" (click)="addList($event)">Save</button>
+  </div>
+  <div><pre> </pre></div>
+</div>
+
+<div *ngIf="showCardPopUp" class="popup-container">
+  <!-- <i class="material-icons close-popup" (click)="closePopUp()">close</i> -->
+  <div class="card-name-container">
+    <i class="material-icons name-icon">label_outline</i>
+    <input type="text" class="card-name-input" value={{cardInfo.name}} (keydown)="$event.keyCode === 13 ? renameCard($event) : null" spellcheck="false">
+    <p class="card-name-list">in {{cardInfo.listName}} list</p>
+  </div>
+
+  <div class="description-container">
+    <p *ngIf="!showDescriptionField" class="description-title" (click)="showDescriptionField = !showDescriptionField">Change description</p>
+    <p *ngIf="!showDescriptionField" class="description-content">{{cardInfo.description}}</p>
+    <div *ngIf="showDescriptionField" class="description-field">
+      <textarea name="name" rows="10" cols="80" spellcheck="false">{{cardInfo.description}}</textarea><br>
+      <button class="list-save-btn" (click)="addDescription($event)">Save</button>
+      <i class="material-icons close-description-btn" (click)="showDescriptionField = !showDescriptionField">close</i>
+    </div>
+  </div>
+
+  <div class="checkbox-container">
+    <i class="material-icons checkbox-icon">check_box</i>
+    <span>progress</span><br>
+
+    <div class="progress-containter">
+      <p class="percentage">{{progressCounter}}%</p>
+      <div class="progress-line">
+        <div class="progress-piece" [style.width]="widthPx+'px'"></div>
+      </div>
+    </div>
+
+      <div class="checkbox-area" *ngFor="let task of tasks">
+        <input type="checkbox" name="tasks" value={{task}} id={{task}} (change)="isChacked($event)"> <span>{{task}}</span>
+      </div>
+
+    <div class="progress-input-container">
+      <input type="text" class="progress-add-checkbox-input" placeholder="Add element..." spellcheck="false">
+      <button class="list-save-btn" (click)="addCheckbox($event)">Add</button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="showCardPopUp" (click)="closePopUp()" class="darker"></div>
+
+
+
+
+
+
+      <!-- <div class='container' >
+        <div>You can move these elements between these two containers</div>
+        <div>Moving them anywhere else isn't quite possible</div>
+        <div>There's also the possibility of moving elements around in the same container, changing their position</div>
+      </div>
+      <div class='container' [dragula]='"first-bag"'>
+        <div>This is the default use case. You only need to specify the containers you want to use</div>
+        <div>More interactive use cases lie ahead</div>
+        <div>Make sure to check out the <a href='https://github.com/bevacqua/dragula#readme'>documentation on GitHub!</a></div>
+      </div> -->
